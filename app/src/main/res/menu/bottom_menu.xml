@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/main"
+        android:title="@string/main"
+        android:enabled="true"
+        android:icon="@drawable/delete_this_xynyu"
+        />
+    <item
+        android:id="@+id/chat"
+        android:title="@string/chat"
+        android:enabled="true"
+        android:icon="@drawable/delete_this_xynyu"
+        />
+    <item
+        android:id="@+id/profile"
+        android:title="@string/profile"
+        android:enabled="true"
+        android:icon="@drawable/delete_this_xynyu"
+        />
+
+
+</menu>
