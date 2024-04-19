@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         navView.setupWithNavController(mNavController)
         mNavController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.splash_screen){
+            if (destination.id in listOf(R.id.splash_screen, R.id.auth, R.id.registration )){
                 findViewById<CardView>(R.id.cardNav).visibility = View.INVISIBLE
             }
             else{
