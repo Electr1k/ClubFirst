@@ -6,19 +6,50 @@
     app:startDestination="@+id/splash_screen">
 
     <fragment android:id="@+id/splash_screen"
-        android:name="ru.trifonov.clubfirst.fragment.SplashScreen"
+        android:name="ru.trifonov.clubfirst.fragment.SplashScreenFragment"
         tools:layout="@layout/splash_screen_fragment">
         <action
             android:id="@+id/action_splash_to_main"
             app:popUpToInclusive="true"
             app:popUpTo="@id/mobile_navigation"
             app:destination="@+id/main"/>
+        <action
+            android:id="@+id/action_splash_to_auth"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/mobile_navigation"
+            app:destination="@+id/auth"/>
+
 
     </fragment>
+
 
     <fragment android:id="@+id/main"
         android:name="ru.trifonov.clubfirst.fragment.MainFragment"
         tools:layout="@layout/main_fragment">
+    </fragment>
+
+    <fragment android:id="@+id/auth"
+        android:name="ru.trifonov.clubfirst.fragment.AuthFragment"
+        tools:layout="@layout/auth_fragment">
+        <action
+            android:id="@+id/action_auth_to_main"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/mobile_navigation"
+            app:destination="@+id/main"/>
+
+        <action
+            android:id="@+id/action_auth_to_registration"
+            app:destination="@+id/registration"/>
+    </fragment>
+
+    <fragment android:id="@+id/registration"
+        android:name="ru.trifonov.clubfirst.fragment.RegistrationFragment"
+        tools:layout="@layout/registration_fragment">
+        <action
+            android:id="@+id/action_registration_to_main"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/mobile_navigation"
+            app:destination="@+id/main"/>
     </fragment>
 
     <fragment android:id="@+id/chat"
