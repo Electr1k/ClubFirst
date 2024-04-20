@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.views.SwipeCardItem
 import ru.trifonov.clubfirst.views.SwipeDirection
@@ -30,6 +31,9 @@ class MainFragment : Fragment() {
         swipeView = view.findViewById(R.id.swipe_view)
         swipeView.onCardSwiped = { _, it, swipeDirection ->
             println("$it $swipeDirection")
+            if (swipeDirection == SwipeDirection.LEFT){
+                findNavController().navigate(R.id.action_main_to_boomp)
+            }
 
         }
         swipeView.onCardSwipingPercentChanged = { viewCard, progress, swipeDirection ->

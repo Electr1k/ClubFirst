@@ -10,6 +10,30 @@
 
 
         <!-- Содержимое CardView -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/main_font_regular"
+                    android:text="Мой профиль"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/btnListMeeting"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="20dp"
+                    android:src="@tools:sample/avatars"
+                    app:srcCompat="@drawable/list_meeting" />
+        </androidx.cardview.widget.CardView>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_image"
             android:layout_width="wrap_content"

@@ -26,6 +26,10 @@
     <fragment android:id="@+id/main"
         android:name="ru.trifonov.clubfirst.fragment.MainFragment"
         tools:layout="@layout/main_fragment">
+        <action
+            android:id="@+id/action_main_to_boomp"
+            app:destination="@+id/boomp"
+            />
     </fragment>
 
     <fragment android:id="@+id/auth"
@@ -59,6 +63,12 @@
             android:id="@+id/action_chat_to_dialog"
             app:destination="@+id/dialog"
             />
+    </fragment>
+
+    <fragment android:id="@+id/boomp"
+        android:name="ru.trifonov.clubfirst.fragment.BoompFragment"
+        tools:layout="@layout/dialog_boomp">
+
     </fragment>
 
     <fragment android:id="@+id/dialog"

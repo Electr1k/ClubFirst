@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -28,6 +29,7 @@ class ProfileFragment : Fragment() {
     private lateinit var mBottomSheetInfo: LinearLayout
     private lateinit var mBottomSheetBehaviorInfo: BottomSheetBehavior<LinearLayout>
     private lateinit var moreBtn: Button
+    private lateinit var btnListMeeting: ImageButton
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +42,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         profileFragment = view.findViewById(R.id.profile_fragment)
         moreBtn = view.findViewById(R.id.moreBtn)
+        btnListMeeting = view.findViewById(R.id.btnListMeeting)
         cardImage = view.findViewById(R.id.card_image)
         cardInfo = view.findViewById(R.id.card_info)
         mBottomSheet = view.findViewById(R.id.bottom_sheet)
@@ -55,6 +58,12 @@ class ProfileFragment : Fragment() {
         moreBtn.setOnClickListener {
             mBottomSheetBehaviorInfo.state = BottomSheetBehavior.STATE_EXPANDED
         }
+
+        btnListMeeting.setOnClickListener {
+
+        }
+
+
     }
 
     override fun onStart() {

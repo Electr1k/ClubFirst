@@ -6,4 +6,5 @@
     <string name="example_email">oggetto@gmail.com</string>
     <string name="login">Войти</string>
     <string name="registration">Зарегистрироваться</string>
+    <string name="profile_collegi"><u>Профиль коллеги</u></string>
 </resources>
