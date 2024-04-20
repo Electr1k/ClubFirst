@@ -1,11 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<FrameLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".fragment.ProfileFragment">
+    android:id="@+id/profile_fragment"
+    tools:context=".fragment.ProfileFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
+        <!-- Содержимое CardView -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationY="-32dp"
+            app:cardCornerRadius="32dp"
+            app:strokeColor="@android:color/transparent">
+
+
+                <ImageView
+                    android:id="@+id/image_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/profile_image"
+                    android:scaleType="centerCrop"
+                    android:translationY="32dp"
+                    android:background="@drawable/card_swiper_background"
+                    android:adjustViewBounds="true" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/gradient"
+                    android:layout_gravity="bottom"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/bottom_sheet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:layout_marginTop="50dp"
+                    android:paddingBottom="90dp"
+                    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            app:strokeColor="@color/main_background"
+                            app:strokeWidth="2dp"
+                            app:cardBackgroundColor="@color/white">
+
+                               <LinearLayout
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginHorizontal="20dp"
+                                   android:layout_marginTop="20dp"
+                                   android:layout_marginBottom="15dp"
+                                   android:orientation="vertical">
+                                       <TextView
+                                           android:layout_width="wrap_content"
+                                           android:layout_height="wrap_content"
+                                           android:textSize="16sp"
+                                           android:fontFamily="@font/main_font_bold"
+                                           android:text="Manager"
+                                           android:textColor="@color/black" />
+                                       <TextView
+                                           android:layout_width="wrap_content"
+                                           android:layout_height="wrap_content"
+                                           android:textSize="24sp"
+                                           android:gravity="center"
+                                           android:translationY="-5dp"
+                                           android:fontFamily="@font/main_font_medium"
+                                           android:text="Сергей Бекезин"
+                                           android:textColor="@color/black"
+                                           />
+                                       <TextView
+                                           android:id="@+id/description"
+                                           android:layout_width="wrap_content"
+                                           android:layout_height="wrap_content"
+                                           android:textSize="16sp"
+                                           android:translationY="-5dp"
+                                           android:fontFamily="@font/main_font_regular"
+                                           android:maxLines="2"
+                                           android:text="Egestas non ac sed porttitor odio massa. Lacus vel risus phasellus augue justo nunc
+                                            Egestas non ac sed porttitor odio massa. Lacus vel risus phas
+                                            Egestas non ac sed porttitor odio massa. Lacus vel risus phas
+                                            Egestas non ac sed porttitor odio massa. Lacus vel risus phas
+
+                                            vvelit turpis."
+                                           android:textColor="@color/black"
+                                           />
+                                       <Button
+                                           android:id="@+id/moreBtn"
+                                           android:layout_width="wrap_content"
+                                           android:layout_height="wrap_content"
+                                           android:layout_gravity="center"
+                                           android:text="Подробнее"
+                                           android:textColor="@color/white"
+                                           android:textSize="18sp"
+                                           android:backgroundTint="@color/main_background"/>
+                               </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:translationY="-5dp"
+                            android:fontFamily="@font/main_font_regular"
+                            android:text="Egestas non ac sed porttitor odio massa. Lacus vel risus phas
+                            ellus augue justo nunc velit turpis."
+                            android:textColor="@color/black"
+                            />
+                </LinearLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>

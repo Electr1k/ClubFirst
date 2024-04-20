@@ -81,7 +81,7 @@
             android:textColor="@color/white"
             android:text="@string/login"
             android:fontFamily="@font/main_font_bold"
-            android:textSize="22sp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
