@@ -3,6 +3,7 @@
     <style name="Base.Theme.ClubFirst" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/main_background</item>
         <item name="android:windowLightStatusBar">true</item> <!-- Добавлено для управления цветом иконок -->
     </style>
 
