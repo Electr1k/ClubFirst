@@ -25,6 +25,8 @@ class ProfileFragment : Fragment() {
     private lateinit var cardInfo: CardView
     private lateinit var mBottomSheet: LinearLayout
     private lateinit var mBottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private lateinit var mBottomSheetInfo: LinearLayout
+    private lateinit var mBottomSheetBehaviorInfo: BottomSheetBehavior<LinearLayout>
     private lateinit var moreBtn: Button
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,22 +43,17 @@ class ProfileFragment : Fragment() {
         cardImage = view.findViewById(R.id.card_image)
         cardInfo = view.findViewById(R.id.card_info)
         mBottomSheet = view.findViewById(R.id.bottom_sheet)
-        mBottomSheetBehavior =  BottomSheetBehavior.from(mBottomSheet)
+        mBottomSheetInfo = view.findViewById(R.id.bottom_sheet_info)
+        mBottomSheetBehaviorInfo = BottomSheetBehavior.from(mBottomSheetInfo)
+        mBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheet)
+
         mBottomSheetBehavior.isHideable = false
+        mBottomSheetBehaviorInfo.skipCollapsed = true
+        mBottomSheetBehaviorInfo.isHideable = true
+        mBottomSheetBehaviorInfo.state = BottomSheetBehavior.STATE_HIDDEN
 
         moreBtn.setOnClickListener {
-            if (moreBtn.text == "Подробнее"){
-
-                cardInfo.findViewById<TextView>(R.id.description).maxLines = 1000
-                mBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                moreBtn.text = "Свернуть"
-            }
-            else{
-                cardInfo.findViewById<TextView>(R.id.description).maxLines = 2
-                mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                moreBtn.text = "Подробнее"
-
-            }
+            mBottomSheetBehaviorInfo.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 
@@ -78,8 +75,8 @@ class ProfileFragment : Fragment() {
                 println(slideOffset)
                 cardImage.translationY = startTranslation - bottomSheet.height * slideOffset * 0.2f
                 val image = cardImage.findViewById<ImageView>(R.id.image_profile)
-                image.scaleX = 1 + 0.2f * slideOffset
-                image.scaleY = 1 + 0.2f * slideOffset
+                image.scaleX = 1.1f + 0.2f * slideOffset
+                image.scaleY = 1.1f + 0.2f * slideOffset
             }
 
         })
