@@ -30,9 +30,9 @@ class ListMeetingAdapter(
 
     override fun onBindViewHolder(holder: PlaceHolder, position: Int) {
 
-        holder.text.text = items[position]
+        holder.text.text = items[position].name
         holder.card.setOnClickListener {
-            navController.navigate(R.id.action_chat_to_dialog, Bundle().also { it.putString("id", items[position]) })
+            navController.navigate(R.id.action_chat_to_dialog, Bundle().also { it.putString("id", items[position].name) })
         }
     }
 

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "930995595343",
+    "project_id": "hacka-fbe52",
+    "storage_bucket": "hacka-fbe52.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930995595343:android:dbd501a458e35a1370e23a",
+        "android_client_info": {
+          "package_name": "ru.trifonov.clubfirst"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930995595343-dlci8camqfalmv735ipivpo631laj692.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.trifonov.clubfirst",
+            "certificate_hash": "7d3890d446fcb2de147f6c542bd769d47335b4f0"
+          }
+        },
+        {
+          "client_id": "930995595343-6r0tcec9a44d5ltbc7af4uasccv8u338.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFOiEuwxt3_Gpw-GnmAxAe8pU1XILQ0Ac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930995595343-6r0tcec9a44d5ltbc7af4uasccv8u338.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "930995595343-7rlfqftkn2956g2u6olkvnic9bhvi4oq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "BananasSolution.TaGOnrog"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
