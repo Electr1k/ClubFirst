@@ -55,6 +55,15 @@
     <fragment android:id="@+id/chat"
         android:name="ru.trifonov.clubfirst.fragment.ChatFragment"
         tools:layout="@layout/chat_fragment">
+        <action
+            android:id="@+id/action_chat_to_dialog"
+
+            app:destination="@+id/dialog"/>
+    </fragment>
+
+    <fragment android:id="@+id/dialog"
+        android:name="ru.trifonov.clubfirst.fragment.DialogFragment"
+        tools:layout="@layout/dialog_fragment">
     </fragment>
 
     <fragment android:id="@+id/profile"
