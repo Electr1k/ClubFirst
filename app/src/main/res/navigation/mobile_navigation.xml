@@ -57,8 +57,8 @@
         tools:layout="@layout/chat_fragment">
         <action
             android:id="@+id/action_chat_to_dialog"
-
-            app:destination="@+id/dialog"/>
+            app:destination="@+id/dialog"
+            />
     </fragment>
 
     <fragment android:id="@+id/dialog"

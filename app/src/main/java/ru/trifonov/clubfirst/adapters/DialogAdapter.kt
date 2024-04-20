@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.data.MessageItem
 import ru.trifonov.clubfirst.databinding.MessageUser1Binding
-import ru.trifonov.clubfirst.databinding.MessageUserBinding
 
 class DialogAdapter(val listener: Listener, val context: Context): RecyclerView.Adapter<DialogAdapter.PlaceHolder>() {
     private var MessageList=ArrayList<MessageItem>()
