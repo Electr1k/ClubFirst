@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.cardview.widget.CardView
 import androidx.navigation.fragment.findNavController
 import ru.trifonov.clubfirst.R
 
 
 class AuthFragment : Fragment() {
 
-    private lateinit var authBtn: Button
+    private lateinit var authBtn: CardView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

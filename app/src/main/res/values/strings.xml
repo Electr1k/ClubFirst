@@ -4,7 +4,7 @@
     <string name="chat">Чат</string>
     <string name="profile">Профиль</string>
     <string name="example_email">oggetto@gmail.com</string>
-    <string name="login">Войти</string>
+    <string name="login">Sign In with Google</string>
     <string name="registration">Зарегистрироваться</string>
     <string name="profile_collegi"><u>Профиль коллеги</u></string>
 </resources>
