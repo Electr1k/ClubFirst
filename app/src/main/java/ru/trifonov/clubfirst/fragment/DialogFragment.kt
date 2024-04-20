@@ -1,5 +1,8 @@
 package ru.trifonov.clubfirst.fragment
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +33,10 @@ class DialogFragment : Fragment(), DialogAdapter.Listener {
         bind.btnSendMes.setOnClickListener{
             SendMessage(bind.editTextMes.text.toString())
         }
+
+        bind.btnMeeting.setOnClickListener {
+            MeetingDialog()
+        }
         setupAdapter()
         adapter.createElement(MessageItem("Привет, я такой та такой та", false))
         adapter.createElement(MessageItem("Привет, я такой та такой та", true))
@@ -45,6 +52,14 @@ class DialogFragment : Fragment(), DialogAdapter.Listener {
         }
     }
 
+    private fun MeetingDialog(){
+        val dialogBinding = layoutInflater.inflate(R.layout.dialog_add_meeting, null)
+        val myDialog = Dialog(requireActivity())
+        myDialog.setContentView(dialogBinding)
+        myDialog.setCancelable(true)
+        myDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        myDialog.show()
+    }
     private fun SendMessage(mes : String){
         adapter.createElement(MessageItem(mes, true))
     }
