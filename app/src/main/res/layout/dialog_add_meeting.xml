@@ -1,86 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <LinearLayout
-            android:layout_width="392dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="7dp"
+            tools:ignore="MissingConstraints">
 
             <LinearLayout
                 android:id="@+id/pick_date"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/main_font_regular"
                     android:text="Выберите дату" />
 
-                <Button
-                    android:id="@+id/button"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/date_picker_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Button" />
 
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Button" />
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+
+                    app:cardBackgroundColor="@color/gray"
+                    app:cardCornerRadius="6dp"
+                    android:layout_gravity="center"
+                    app:contentPadding="7dp">
+                    <TextView
+                        android:id="@+id/selected_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/main_font_regular"
+                        android:textColor="@color/black"
+                        android:text="20.10.2022 23:21"/>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                android:layout_marginVertical="8dp"/>
             <LinearLayout
                 android:id="@+id/pick_online"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/main_font_regular"
                     android:text="Онлайн" />
 
                 <Switch
-                    android:id="@+id/switch1"
+                    android:id="@+id/is_online"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                android:layout_marginVertical="8dp"/>
             <LinearLayout
                 android:id="@+id/pick_time"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="horizontal">
-
                 <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/duration_time"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Продолжительность" />
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/main_font_regular"
+                    android:text="Продолжительность: " />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/duration_time_minus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/gray"
+                    app:cardCornerRadius="6dp"
+                    android:layout_gravity="center"
+                    app:contentPaddingTop="7dp"
+                    app:contentPaddingBottom="7dp"
+                    app:contentPaddingLeft="14dp"
+                    app:contentPaddingRight="14dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/main_font_regular"
+                        android:textColor="@color/black"
+                        android:text="-"/>
+                </androidx.cardview.widget.CardView>
+                <View
+                    android:layout_width="7dp"
+                    android:layout_height="0dp"/>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/duration_time_plus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/gray"
+                    app:cardCornerRadius="6dp"
+                    android:layout_gravity="center"
+                    app:contentPaddingTop="7dp"
+                    app:contentPaddingBottom="7dp"
+                    app:contentPaddingLeft="14dp"
+                    app:contentPaddingRight="14dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/main_font_regular"
+                        android:textColor="@color/black"
+                        android:text="+"/>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/saveBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/main_background"
+                app:cardCornerRadius="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Создать"
+                    android:textSize="22sp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/main_font_bold"/>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
