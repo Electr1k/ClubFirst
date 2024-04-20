@@ -3,44 +3,53 @@ package ru.trifonov.clubfirst.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import ru.trifonov.clubfirst.R
-import ru.trifonov.clubfirst.databinding.MessageBinding
 
-class ChatAdapter(val listener: Listener, val context: Context): RecyclerView.Adapter<ChatAdapter.PlaceHolder>() {
-    private var MessageList=ArrayList<String>()
+import ru.trifonov.clubfirst.databinding.NameChatUserBinding
 
-    class PlaceHolder(item: View): RecyclerView.ViewHolder(item) {
-        val binding = MessageBinding.bind(item)
-        @RequiresApi(Build.VERSION_CODES.Q)
-        fun bind(message: String, listener: Listener, context: Context) = with(binding){
-            textMessage.text = message
+class ChatAdapter(
+    val items : ArrayList<String>,
+    val context: Context,
+    private val navController: NavController) : RecyclerView.Adapter<ChatAdapter.PlaceHolder>() {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): PlaceHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.name_chat_user, parent,false)
+        return PlaceHolder(view)
+    }
+    override fun getItemCount(): Int {
+        return items.size
+    }
+
+    override fun onBindViewHolder(holder: PlaceHolder, position: Int) {
+
+        holder.text.text = items[position]
+        holder.card.setOnClickListener {
+            navController.navigate(R.id.action_chat_to_dialog, Bundle().also { it.putString("id", items[position]) })
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceHolder {
-        val view= LayoutInflater.from(parent.context).inflate(R.layout.message,parent,false)
-        return  PlaceHolder(view)
+    class PlaceHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        val text: TextView
+        val card : CardView
+        init {
+            text = itemView.findViewById(R.id.name_chat_user)
+            card = itemView.findViewById(R.id.card_user)
+        }
     }
+}
 
-    @RequiresApi(Build.VERSION_CODES.Q)
-    override fun onBindViewHolder(holder: PlaceHolder, position: Int) {
-        holder.bind(MessageList[position], listener, context)
-    }
 
-    override fun getItemCount(): Int {
-        return MessageList.size
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun createElement(mes : String){
-        MessageList.add(mes)
-        notifyDataSetChanged()
-    }
 
     /*
     @SuppressLint("NotifyDataSetChanged")
@@ -59,7 +68,4 @@ class ChatAdapter(val listener: Listener, val context: Context): RecyclerView.Ad
         PlaceList.removeAll(PlaceList.toSet())
     }
     */
-    interface Listener{
-        fun onClick()
-    }
-}
+
