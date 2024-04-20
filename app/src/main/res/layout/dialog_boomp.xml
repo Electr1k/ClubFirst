@@ -6,50 +6,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/gradient_boomp">
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_image_1"
+        android:layout_width="140dp"
+        android:layout_height="250dp"
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:rotation="20"
+        app:cardCornerRadius="20dp"
+        android:translationX="-10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/card_image"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_image_1"
-            android:layout_width="140dp"
-            android:layout_height="250dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="160dp"
-            android:layout_marginEnd="50dp"
-            android:rotation="20"
-            app:cardCornerRadius="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/card_image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@android:color/transparent"
-            tools:ignore="MissingConstraints">
+        app:strokeColor="@android:color/transparent"
+        tools:ignore="MissingConstraints">
 
 
-            <ImageView
-                android:id="@+id/image_profile_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:background="@drawable/card_swiper_background"
-                android:scaleType="centerCrop"
-                android:scaleX="1.4"
-                android:scaleY="1.4"
-                android:src="@drawable/profile_image"
-                android:translationY="32dp" />
+        <ImageView
+            android:id="@+id/image_profile_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@drawable/card_swiper_background"
+            android:scaleType="centerCrop"
+            android:scaleX="1.4"
+            android:scaleY="1.4"
+            android:src="@drawable/profile_image"
+            android:translationY="32dp" />
 
-        </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
@@ -76,8 +61,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="2dp"
-                android:layout_marginBottom="5dp"
+                android:translationY="-5dp"
+                android:translationX="-1dp"
                 app:srcCompat="@drawable/like_boomp" />
         </androidx.cardview.widget.CardView>
 
@@ -87,12 +72,15 @@
             android:layout_height="250dp"
             android:layout_marginStart="4dp"
             android:layout_marginBottom="320dp"
+
             android:rotation="-20"
-            android:translationX="30dp"
-            android:translationY="170dp"
+            android:translationX="34dp"
+            android:translationY="200dp"
             app:cardCornerRadius="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/button3"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/card_image_1"
             app:strokeColor="@android:color/transparent"
             tools:ignore="MissingConstraints">
 
@@ -137,6 +125,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:translationX="-1dp"
+                android:translationY="-5dp"
                 app:srcCompat="@drawable/like_boomp" />
         </androidx.cardview.widget.CardView>
 
@@ -149,6 +139,7 @@
             android:text="@string/profile_collegi"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/button3"
             app:layout_constraintEnd_toEndOf="@+id/button3"
             app:layout_constraintStart_toStartOf="@+id/button3" />
@@ -159,14 +150,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
-            android:layout_marginBottom="70dp"
+            android:layout_marginBottom="75dp"
             android:backgroundTint="#000000"
-            android:text="Пообщаться"
+            android:text="Время встретиться"
+            android:textSize="20sp"
+            android:fontFamily="@font/main_font_bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
