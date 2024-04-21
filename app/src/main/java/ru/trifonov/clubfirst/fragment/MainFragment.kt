@@ -9,7 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ru.trifonov.clubfirst.R
+import ru.trifonov.clubfirst.di.ApiModule
 import ru.trifonov.clubfirst.views.SwipeCardItem
 import ru.trifonov.clubfirst.views.SwipeDirection
 import ru.trifonov.clubfirst.views.SwipeView
@@ -53,13 +57,31 @@ class MainFragment : Fragment() {
             val background = viewItem.background as GradientDrawable
             background.setStroke(6 , Color.argb(255, 255, 221, 0))
         }
-        swipeView.submitData(
-            listOf(
-                SwipeCardItem(R.layout.employee_item, SomeUsefulData("Mircella")),
-                SwipeCardItem(R.layout.employee_item, SomeUsefulData("Frodo")),
-                SwipeCardItem(R.layout.employee_item, SomeUsefulData("Aragorn")),
-            )
-        )
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val listRec = ApiModule.provideApi().getRecommendations()
+                println("Recommendations: $listRec")
+                val listData = mutableListOf<SwipeCardItem>()
+                listRec.results.map {
+                    listData.add(
+                        SwipeCardItem(R.layout.employee_item, SomeUsefulData(it.`object`.about)
+                        )
+                    )
+                }
+                requireActivity().runOnUiThread {
+                    swipeView.submitData(listData)
+
+                }
+            }
+            catch (e: Exception){
+                println("error")
+            }
+        }
     }
 
     data class SomeUsefulData(

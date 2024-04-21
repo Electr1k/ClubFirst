@@ -1,5 +1,6 @@
 package ru.trifonov.clubfirst.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,11 +13,19 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.w3c.dom.Text
 import ru.trifonov.clubfirst.R
+import ru.trifonov.clubfirst.adapters.TagsAdapter
 import ru.trifonov.clubfirst.databinding.ProfileFragmentBinding
+import ru.trifonov.clubfirst.di.ApiModule
+import ru.trifonov.clubfirst.views.SwipeCardItem
 
 
 class ProfileFragment : Fragment() {
@@ -29,7 +38,15 @@ class ProfileFragment : Fragment() {
     private lateinit var mBottomSheetInfo: LinearLayout
     private lateinit var mBottomSheetBehaviorInfo: BottomSheetBehavior<LinearLayout>
     private lateinit var moreBtn: Button
-//    private lateinit var btnListMeeting: ImageButton
+    private lateinit var position: TextView
+    private lateinit var name: TextView
+    private lateinit var nameFull: TextView
+    private lateinit var email_full_info: TextView
+    private lateinit var birth_day: TextView
+    private lateinit var about: TextView
+    private lateinit var about_me_full: TextView
+    private lateinit var tagsRV: RecyclerView
+    private lateinit var image_profile: ImageView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,14 +59,21 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         profileFragment = view.findViewById(R.id.profile_fragment)
         moreBtn = view.findViewById(R.id.moreBtn)
-//        btnListMeeting = view.findViewById(R.id.btnListMeeting)
         cardImage = view.findViewById(R.id.card_image)
         cardInfo = view.findViewById(R.id.card_info)
         mBottomSheet = view.findViewById(R.id.bottom_sheet)
+        tagsRV = view.findViewById(R.id.tagsRV)
+        about_me_full = view.findViewById(R.id.about_me)
         mBottomSheetInfo = view.findViewById(R.id.bottom_sheet_info)
         mBottomSheetBehaviorInfo = BottomSheetBehavior.from(mBottomSheetInfo)
         mBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheet)
-
+        position = view.findViewById(R.id.position)
+        name = view.findViewById(R.id.name)
+        nameFull = view.findViewById(R.id.name_full_info)
+        birth_day = view.findViewById(R.id.birth_day)
+        email_full_info = view.findViewById(R.id.email_full_info)
+        about = view.findViewById(R.id.description)
+        image_profile = view.findViewById(R.id.image_profile)
         mBottomSheetBehavior.isHideable = false
         mBottomSheetBehaviorInfo.skipCollapsed = true
         mBottomSheetBehaviorInfo.isHideable = true
@@ -59,20 +83,46 @@ class ProfileFragment : Fragment() {
             mBottomSheetBehaviorInfo.state = BottomSheetBehavior.STATE_EXPANDED
         }
 
-//        btnListMeeting.setOnClickListener {
-//
-//        }
 
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val userResponse = ApiModule.provideApi().getCurrentUser()
 
+                requireActivity().runOnUiThread {
+                    if (userResponse.position!=null){
+                        position.text = userResponse.position.name
+                    }
+                    else{
+                        position.text = "Позиция не указана"
+                        position.setTextColor(Color.argb(255, 255, 0, 0))
+                    }
+                    name.text = "${userResponse.first_name} ${userResponse.last_name}"
+                    nameFull.text = "${userResponse.first_name} ${userResponse.last_name}"
+//                    about.text = userResponse.ab
+                    birth_day.text = userResponse.birth_date ?: ""
+                    email_full_info.text = userResponse.email
+//                    about_me_full.text = userResponse.
+                    tagsRV.adapter = TagsAdapter(userResponse.tags)
+                    if (userResponse.avatar != null){
+                        image_profile.load(userResponse.avatar)
+                    }
+                }
+            }
+            catch (e: Exception){
+                println("error")
+            }
+        }
     }
 
     override fun onStart() {
         super.onStart()
         var startTranslation = 0f
+
+
         cardImage.post{
             val cardHeight = cardImage.height + cardImage.translationY
             startTranslation = cardImage.translationY
-            mBottomSheetBehavior.peekHeight = (profileFragment.height - cardHeight + cardInfo.height * 0.5).toInt()
+            mBottomSheetBehavior.peekHeight = (profileFragment.height - cardHeight + cardInfo.height ).toInt()
             mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         }

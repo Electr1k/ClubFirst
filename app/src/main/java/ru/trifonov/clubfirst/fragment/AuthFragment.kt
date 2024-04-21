@@ -7,22 +7,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ru.trifonov.clubfirst.R
+import ru.trifonov.clubfirst.data.dto.PositionsPaginated
+import ru.trifonov.clubfirst.data.dto.User
+import ru.trifonov.clubfirst.di.ApiModule
 
 
 class AuthFragment : Fragment() {
@@ -73,8 +75,26 @@ class AuthFragment : Fragment() {
                 val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                 auth.signInWithCredential(credential).addOnCompleteListener {
                     if (it.isSuccessful){
-                        println(it.result.user)
-                        findNavController().navigate(R.id.action_auth_to_registration)
+                        CoroutineScope(Dispatchers.IO).launch {
+
+                            var user: Any? = null
+                            try {
+                                user = ApiModule.provideApi().login(it.result.user!!.email!!)
+                            }
+                            catch (e: Exception){
+                            }
+                            if (user is User){
+                                requireActivity().runOnUiThread {
+                                    findNavController().navigate(R.id.action_auth_to_main)
+                                }
+                            }
+                            else{
+                                requireActivity().runOnUiThread {
+                                    findNavController().navigate(R.id.action_auth_to_registration)
+                                }
+                            }
+                        }
+
                     }
                 }
             }

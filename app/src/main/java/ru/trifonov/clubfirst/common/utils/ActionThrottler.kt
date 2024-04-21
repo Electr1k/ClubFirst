@@ -1,4 +1,4 @@
-package ru.trifonov.clubfirst.utils
+package ru.trifonov.clubfirst.common.utils
 
 import android.os.SystemClock
 

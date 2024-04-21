@@ -13,7 +13,7 @@ import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.fragment.MainFragment
-import ru.trifonov.clubfirst.utils.ActionThrottler
+import ru.trifonov.clubfirst.common.utils.ActionThrottler
 import java.util.LinkedList
 import java.util.Queue
 import kotlin.math.abs
