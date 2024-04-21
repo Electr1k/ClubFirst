@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:paddingVertical="7dp"
         android:paddingHorizontal="15dp"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:fontFamily="@font/main_font_regular"
         android:text="Tag"/>
 </androidx.cardview.widget.CardView>

@@ -35,7 +35,7 @@ class ChatAdapter(
     override fun onBindViewHolder(holder: PlaceHolder, position: Int) {
 
         holder.text.text = items[position].name
-        holder.lastName.text = items[position].last_message.text
+        holder.lastName.text = items[position].last_message?.text ?: ""
         holder.card.setOnClickListener {
             navController.navigate(R.id.action_chat_to_dialog, Bundle().also { it.putInt("id", items[position].id) })
         }

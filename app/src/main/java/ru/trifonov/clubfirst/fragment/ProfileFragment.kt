@@ -98,10 +98,10 @@ class ProfileFragment : Fragment() {
                     }
                     name.text = "${userResponse.first_name} ${userResponse.last_name}"
                     nameFull.text = "${userResponse.first_name} ${userResponse.last_name}"
-//                    about.text = userResponse.ab
+                    about.text = userResponse.about
                     birth_day.text = userResponse.birth_date ?: ""
                     email_full_info.text = userResponse.email
-//                    about_me_full.text = userResponse.
+                    about_me_full.text = userResponse.about
                     tagsRV.adapter = TagsAdapter(userResponse.tags)
                     if (userResponse.avatar != null){
                         image_profile.load(userResponse.avatar)

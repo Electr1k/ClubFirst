@@ -25,6 +25,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.createBitmap
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.CoroutineScope
@@ -134,22 +135,21 @@ class RegistrationFragment : Fragment(), DatePickerDialog.OnDateSetListener, Ada
                 CoroutineScope(Dispatchers.IO).launch {
                     if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         val requestBody = imageFile!!.asRequestBody("image/*".toMediaTypeOrNull())
-                        val listTag = mutableListOf<Int>()
-                        tagsResponse.results.map { listTag.add(it.id) }
+                        val listTag = "1"
                         println("Tags ${listTag}")
-                        println(birthDay)
+                        println("${birthDay}")
                         println("TOKEN")
-//                        val user = ApiModule.provideApi().updateUser(
-//                            token = "Bearer ${ token?: ""}" ,
-//                            first_name = firstName.text.toString(),
-//                            last_name = lastName.text.toString(),
+                        val user = ApiModule.provideApi().updateUser(
+                            token = "Bearer ${ token?: ""}" ,
+                            first_name = firstName.text.toString(),
+                            last_name = lastName.text.toString(),
 //                            birth_date = birthDay,
-//                            time_preference = timePreferences.text.toString(),
+                            time_preference = timePreferences.text.toString(),
 //                            tags = listTag,
-//                            position = (position.selectedItem as Position).id,
-//                            about = about.text.toString(),
-//                            avatar = MultipartBody.Part.createFormData("avatar", imageFile!!.name, requestBody)
-//                        )
+                            position = (position.selectedItem as Position).id,
+                            about = about.text.toString(),
+                            avatar = MultipartBody.Part.createFormData("avatar", imageFile!!.name, requestBody)
+                        )
                         requireActivity().runOnUiThread {
                             findNavController().navigate(R.id.action_registration_to_main)
                         }

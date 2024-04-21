@@ -11,6 +11,7 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
+import ru.trifonov.clubfirst.data.dto.AccountRec
 import ru.trifonov.clubfirst.data.dto.AccountResponse
 import ru.trifonov.clubfirst.data.dto.AccountResponseRec
 import ru.trifonov.clubfirst.data.dto.LoginBody
@@ -39,9 +40,9 @@ interface ServerApi {
         @Header("Authorization") token: String,
         @Part("first_name") first_name: String,
         @Part("last_name") last_name: String,
-        @Part("birth_date") birth_date: String,
+        @Part("birth_date") birth_date: String? = null,
         @Part("time_preference") time_preference: String,
-        @Part("tags") tags: List<Int>,
+        @Part("tags") tags: String? = null,
         @Part("position") position: Int,
         @Part("about") about: String,
         @Part avatar: MultipartBody.Part
@@ -79,7 +80,7 @@ interface ServerApi {
         @Path("id") id: Int,
         @Body body: ReactionBody,
         @Header("Authorization") token: String
-    ): TagPagination
+    ): AccountRec
 
 
 }

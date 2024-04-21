@@ -11,11 +11,12 @@ data class AccountRec(
     val id: Int,
     val `object`: AccountObject,
     val state: Int,
-    val is_bump: Boolean
+    val is_bump: Boolean,
+    val object_bump_info: User?
 )
 
 data class AccountObject(
     val id: Int,
-    val tags: List<Tag>,
+    var tags: List<Tag>,
     val about: String
 )

@@ -10,5 +10,5 @@ data class AccountResponse(
 data class Account(
     val id: Int,
     val name: String,
-    val last_message: Message
+    val last_message: Message?
 )

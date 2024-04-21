@@ -12,5 +12,6 @@ data class User(
     val time_preference: String?,
     val groups: List<Group>,
     val tags: List<Tag>,
-    val position: Position?
+    val position: Position?,
+    val about: String
 )

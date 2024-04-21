@@ -17,6 +17,7 @@ import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.adapters.TagsAdapter
 import ru.trifonov.clubfirst.common.utils.SettingsData
 import ru.trifonov.clubfirst.data.dto.AccountObject
+import ru.trifonov.clubfirst.data.dto.AccountRec
 import ru.trifonov.clubfirst.data.dto.ReactionBody
 import ru.trifonov.clubfirst.data.dto.Tag
 import ru.trifonov.clubfirst.di.ApiModule
@@ -42,22 +43,24 @@ class MainFragment : Fragment() {
         swipeView = view.findViewById(R.id.swipe_view)
         swipeView.onCardSwiped = { _, it, swipeDirection ->
             println("$it $swipeDirection")
-            val rec = (it as SomeUsefulData).data
             CoroutineScope(Dispatchers.IO).launch {
                 val api = ApiModule.provideApi()
                 try {
                     val body = ReactionBody(if (swipeDirection == SwipeDirection.LEFT) 1 else 2)
-                    api.setReactionOnRecommendation((it as SomeUsefulData).recId, body, token = "Bearer $token")
+                    val data = api.setReactionOnRecommendation((it as SomeUsefulData).recId, body, token = "Bearer $token")
                     requireActivity().runOnUiThread {
-                        if (swipeDirection == SwipeDirection.LEFT) findNavController().navigate(R.id.action_main_to_boomp)
+                        if (swipeDirection == SwipeDirection.LEFT) {
+                            if (data.is_bump){
+
+                                findNavController().navigate(R.id.action_main_to_boomp, Bundle().also { it.putString("email", data.object_bump_info!!.email) })
+                            }
+                        }
                     }
                 }
                 catch (e: Exception){
                     println(e.message)
                 }
-
             }
-
         }
         swipeView.onCardSwipingPercentChanged = { viewCard, progress, swipeDirection ->
             val background = viewCard.background as GradientDrawable
@@ -70,11 +73,10 @@ class MainFragment : Fragment() {
 
         }
         swipeView.onCardBind = { viewItem: View, employee: SomeUsefulData ->
-
             val title = viewItem.findViewById<TextView>(R.id.title)
-            title.text = employee.data.about
+            title.text = employee.data.`object`.about
             val rv = viewItem.findViewById<RecyclerView>(R.id.tagsRV)
-            rv.adapter = TagsAdapter(employee.data.tags)
+            rv.adapter = TagsAdapter(employee.data.`object`.tags)
             val background = viewItem.background as GradientDrawable
             background.setStroke(6 , Color.argb(255, 255, 221, 0))
         }
@@ -85,11 +87,14 @@ class MainFragment : Fragment() {
         super.onStart()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val listRec = ApiModule.provideApi().getRecommendations("Bearer ${ SettingsData(requireContext()).getToken()?: ""}")
+                val listRec = ApiModule.provideApi()
+                    .getRecommendations("Bearer ${SettingsData(requireContext()).getToken() ?: ""}")
                 println("Recommendations: $listRec")
+
                 val listData = mutableListOf<SwipeCardItem>()
                 listRec.results.map {
-                    listData.add(SwipeCardItem(R.layout.employee_item, SomeUsefulData(it.`object`, it.id))
+                    listData.add(
+                        SwipeCardItem(R.layout.employee_item, SomeUsefulData(it, it.id))
                     )
                 }
 
@@ -97,14 +102,12 @@ class MainFragment : Fragment() {
                     swipeView.submitData(listData)
                 }
             }
-            catch (e: Exception){
-                println("error")
-            }
+            catch (e: Exception){}
         }
     }
 
     data class SomeUsefulData(
-        val data: AccountObject,
+        val data: AccountRec,
         val recId: Int
     )
 
