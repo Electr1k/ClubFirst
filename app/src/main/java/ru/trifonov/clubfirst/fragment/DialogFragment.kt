@@ -1,5 +1,6 @@
 package ru.trifonov.clubfirst.fragment
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.TimePicker
@@ -17,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.adapters.DialogAdapter
@@ -29,12 +32,13 @@ import kotlin.math.max
 import kotlin.math.min
 
 
-class DialogFragment : Fragment(), DialogAdapter.Listener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+class DialogFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private lateinit var selectedDate: TextView
     private lateinit var durationTimeView: TextView
     private lateinit var bind: DialogFragmentBinding
     private lateinit var adapter: DialogAdapter
+    private  var MessageList = arrayListOf<MessageItem>()
     private var durationTime = 10
     private var year = 0
     private var hour = 0
@@ -63,9 +67,9 @@ class DialogFragment : Fragment(), DialogAdapter.Listener, DatePickerDialog.OnDa
         bind.btnMeeting.setOnClickListener {
             MeetingDialog()
         }
+
         setupAdapter()
-        adapter.createElement(MessageItem("Привет, я такой та такой та", false))
-        adapter.createElement(MessageItem("Привет, я такой та такой та", true))
+
 
         return bind.root
     }
@@ -74,7 +78,11 @@ class DialogFragment : Fragment(), DialogAdapter.Listener, DatePickerDialog.OnDa
         super.onViewCreated(view, savedInstanceState)
         val idChat = arguments?.getInt("id")
         bind.btnBackToChats.setOnClickListener {
-            findNavController().popBackStack()
+            val animation = AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_button_alpha)
+            bind.btnBackToChats.startAnimation(animation)
+            CoroutineScope(Dispatchers.Main).launch {
+                BackToChats()
+            }
         }
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -131,24 +139,29 @@ class DialogFragment : Fragment(), DialogAdapter.Listener, DatePickerDialog.OnDa
         dialog.show()
 
     }
-    private fun SendMessage(mes : String){
-        adapter.createElement(MessageItem(mes, true))
-    }
 
+    private fun SendMessage(mes : String) {
+
+        MessageList.add(MessageItem(mes, true))
+        adapter.notifyDataSetChanged()
+        bind.rcDialog.smoothScrollToPosition(adapter.itemCount)
+        bind.editTextMes.text.clear()
+    }
     private fun setupAdapter() {
-        adapter= DialogAdapter(this, requireContext())
+        adapter= DialogAdapter(MessageList, requireContext())
         bind.rcDialog.layoutManager = LinearLayoutManager(requireContext())
         bind.rcDialog.adapter=adapter
     }
 
+    private suspend fun BackToChats(){
+        delay(15)
+        findNavController().popBackStack()
+    }
     private fun initView(){
         val str = arguments?.getString("id")
         bind.nameCompanion.text = str
     }
 
-    override fun onClick() {
-        TODO("Not yet implemented")
-    }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         savedDay = dayOfMonth

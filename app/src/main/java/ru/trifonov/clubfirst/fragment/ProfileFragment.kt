@@ -8,25 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.adapters.TagsAdapter
 import ru.trifonov.clubfirst.common.utils.SettingsData
-import ru.trifonov.clubfirst.databinding.ProfileFragmentBinding
 import ru.trifonov.clubfirst.di.ApiModule
-import ru.trifonov.clubfirst.views.SwipeCardItem
 
 
 class ProfileFragment : Fragment() {
@@ -104,7 +99,7 @@ class ProfileFragment : Fragment() {
                     about_me_full.text = userResponse.about
                     tagsRV.adapter = TagsAdapter(userResponse.tags)
                     if (userResponse.avatar != null){
-                        image_profile.load(userResponse.avatar)
+                        (image_profile as ImageView).load(userResponse.avatar)
                     }
                 }
             }
@@ -112,6 +107,8 @@ class ProfileFragment : Fragment() {
                 println("error")
             }
         }
+
+
     }
 
     override fun onStart() {

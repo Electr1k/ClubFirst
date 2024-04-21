@@ -13,7 +13,7 @@ import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.data.Meeting
 
 class ListMeetingAdapter(
-    val items : ArrayList<Meeting>,
+    var items : ArrayList<Meeting>,
     val context: Context,
     private val navController: NavController
 ) : RecyclerView.Adapter<ListMeetingAdapter.PlaceHolder>() {
@@ -21,7 +21,7 @@ class ListMeetingAdapter(
         parent: ViewGroup,
         viewType: Int
     ): PlaceHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.name_chat_user, parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_meeting, parent,false)
         return PlaceHolder(view)
     }
     override fun getItemCount(): Int {
@@ -30,18 +30,21 @@ class ListMeetingAdapter(
 
     override fun onBindViewHolder(holder: PlaceHolder, position: Int) {
 
-        holder.text.text = items[position].name
-        holder.card.setOnClickListener {
-            navController.navigate(R.id.action_chat_to_dialog, Bundle().also { it.putString("id", items[position].name) })
-        }
+        holder.text_name_user.text = "Встреча: " + items[position].name_user
+        holder.text_time_meet.text = "Встреча запланирована на " + items[position].time
     }
 
     class PlaceHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val text: TextView
-        val card : CardView
+        val text_name_user: TextView
+        val text_time_meet : TextView
         init {
-            text = itemView.findViewById(R.id.name_chat_user)
-            card = itemView.findViewById(R.id.card_user)
+            text_name_user = itemView.findViewById(R.id.meet)
+            text_time_meet = itemView.findViewById(R.id.meet_time)
         }
+    }
+
+    fun updateList(mas : ArrayList<Meeting>){
+        items = mas
+        notifyDataSetChanged()
     }
 }
