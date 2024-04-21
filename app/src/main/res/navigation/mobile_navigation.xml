@@ -62,6 +62,10 @@
         <action
             android:id="@+id/action_chat_to_dialog"
             app:destination="@+id/dialog"
+            app:enterAnim="@anim/to_left_in"
+            app:exitAnim="@anim/to_left_out"
+            app:popEnterAnim="@anim/to_right_in"
+            app:popExitAnim="@anim/to_right_out"
             />
     </fragment>
 
@@ -79,6 +83,20 @@
     <fragment android:id="@+id/profile"
         android:name="ru.trifonov.clubfirst.fragment.ProfileFragment"
         tools:layout="@layout/profile_fragment">
+
+        <action
+            android:id="@+id/action_profile_to_list_meeting"
+            app:destination="@+id/list_meeting"
+            app:enterAnim="@anim/to_left_in"
+            app:exitAnim="@anim/to_left_out"
+            app:popEnterAnim="@anim/to_right_in"
+            app:popExitAnim="@anim/to_right_out"
+            />
+    </fragment>
+
+    <fragment android:id="@+id/list_meeting"
+        android:name="ru.trifonov.clubfirst.fragment.ListMeetingFragment"
+        tools:layout="@layout/list_meeting_fragment">
     </fragment>
 
 

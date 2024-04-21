@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import org.w3c.dom.Text
@@ -29,7 +30,7 @@ class ProfileFragment : Fragment() {
     private lateinit var mBottomSheetInfo: LinearLayout
     private lateinit var mBottomSheetBehaviorInfo: BottomSheetBehavior<LinearLayout>
     private lateinit var moreBtn: Button
-    private lateinit var btnListMeeting: ImageButton
+    private lateinit var btnListMeeting: ImageView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,7 +61,7 @@ class ProfileFragment : Fragment() {
         }
 
         btnListMeeting.setOnClickListener {
-
+            findNavController().navigate(R.id.action_profile_to_list_meeting)
         }
 
 

@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:id="@+id/profile_fragment"
+    android:fitsSystemWindows="true"
     tools:context=".fragment.ProfileFragment"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -12,7 +13,7 @@
         <!-- Содержимое CardView -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="60dp">
 
                 <TextView
                     android:id="@+id/textView5"
@@ -30,7 +31,6 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical|end"
                     android:layout_marginEnd="20dp"
-                    android:src="@tools:sample/avatars"
                     app:srcCompat="@drawable/list_meeting" />
         </androidx.cardview.widget.CardView>
 
