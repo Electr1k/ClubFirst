@@ -31,13 +31,13 @@ interface ServerApi {
 
     @GET("auth/user/")
     suspend fun getCurrentUser(
-        @Header("Authorization") token: String,
+        @Header("X-Authorization") token: String,
         ): User
 
     @Multipart
     @PATCH("auth/user/")
     suspend fun updateUser(
-        @Header("Authorization") token: String,
+        @Header("X-Authorization") token: String,
         @Part("first_name") first_name: String,
         @Part("last_name") last_name: String,
         @Part("birth_date") birth_date: String? = null,
@@ -50,36 +50,36 @@ interface ServerApi {
 
     @GET("members/position/")
     suspend fun getPositions(
-        @Header("Authorization") token: String
+        @Header("X-Authorization") token: String
     ): PositionsPaginated
 
     @GET("recommendations/match/")
     suspend fun getRecommendations(
-        @Header("Authorization") token: String
+        @Header("X-Authorization") token: String
     ): AccountResponseRec
 
     @GET("chats/chat/")
     suspend fun getChats(
-        @Header("Authorization") token: String
+        @Header("X-Authorization") token: String
     ): AccountResponse
 
     @GET("chats/chat/{id}/message")
     suspend fun getChatMessage(
         @Path("id") id: Int,
-        @Header("Authorization") token: String
+        @Header("X-Authorization") token: String
     ): Messages
 
 
     @GET("members/tag/")
     suspend fun getTags(
-        @Header("Authorization") token: String
+        @Header("X-Authorization") token: String
     ): TagPagination
 
     @PATCH("recommendations/match/{id}/")
     suspend fun setReactionOnRecommendation(
         @Path("id") id: Int,
         @Body body: ReactionBody,
-        @Header("Authorization") token: String
+        @Header("X-Authorization") token: String
     ): AccountRec
 
 

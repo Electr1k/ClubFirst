@@ -12,7 +12,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import kotlinx.coroutines.CoroutineScope
@@ -43,6 +45,8 @@ class ProfileFragment : Fragment() {
     private lateinit var about_me_full: TextView
     private lateinit var tagsRV: RecyclerView
     private lateinit var image_profile: ImageView
+    private lateinit var btnListMeeting: ImageView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -69,12 +73,15 @@ class ProfileFragment : Fragment() {
         birth_day = view.findViewById(R.id.birth_day)
         email_full_info = view.findViewById(R.id.email_full_info)
         about = view.findViewById(R.id.description)
+        btnListMeeting = view.findViewById(R.id.btnListMeeting)
         image_profile = view.findViewById(R.id.image_profile)
         mBottomSheetBehavior.isHideable = false
         mBottomSheetBehaviorInfo.skipCollapsed = true
         mBottomSheetBehaviorInfo.isHideable = true
         mBottomSheetBehaviorInfo.state = BottomSheetBehavior.STATE_HIDDEN
-
+        btnListMeeting.setOnClickListener {
+            findNavController().navigate(R.id.action_profile_to_list_meeting)
+        }
         moreBtn.setOnClickListener {
             mBottomSheetBehaviorInfo.state = BottomSheetBehavior.STATE_EXPANDED
         }
@@ -99,7 +106,7 @@ class ProfileFragment : Fragment() {
                     about_me_full.text = userResponse.about
                     tagsRV.adapter = TagsAdapter(userResponse.tags)
                     if (userResponse.avatar != null){
-                        (image_profile as ImageView).load(userResponse.avatar)
+                        image_profile.load(userResponse.avatar)
                     }
                 }
             }

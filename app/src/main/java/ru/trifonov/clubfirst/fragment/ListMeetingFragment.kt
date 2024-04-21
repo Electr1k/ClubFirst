@@ -9,9 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -19,6 +24,8 @@ import kotlinx.coroutines.launch
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.adapters.ChatAdapter
 import ru.trifonov.clubfirst.adapters.ListMeetingAdapter
+import ru.trifonov.clubfirst.adapters.SpinnerAdapter
+import ru.trifonov.clubfirst.adapters.StateSpinnerAdapter
 import ru.trifonov.clubfirst.data.Meeting
 import ru.trifonov.clubfirst.databinding.ChatFragmentBinding
 import ru.trifonov.clubfirst.databinding.ListMeetingFragmentBinding
@@ -29,6 +36,12 @@ class ListMeetingFragment : Fragment() {
     private var items : ArrayList<Meeting> = arrayListOf()
     private lateinit var bind: ListMeetingFragmentBinding
     private lateinit var adapter: ListMeetingAdapter
+    private lateinit var btn: Button
+
+
+    private lateinit var mBottomSheet: LinearLayout
+    private lateinit var mBottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+
     @SuppressLint("ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,7 +89,17 @@ class ListMeetingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        mBottomSheet = view.findViewById(R.id.bottom_sheet_info)
+        btn = view.findViewById(R.id.save)
+        val spinner = view.findViewById<Spinner>(R.id.position)
+        mBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheet)
+        mBottomSheetBehavior.skipCollapsed = true
+        mBottomSheetBehavior.isHideable = true
+        mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        val listState = listOf("Состоялось", "Несостоялось")
+        spinner.adapter = StateSpinnerAdapter(requireContext(), listState, layoutInflater)
+        spinner.setSelection(0)
+        btn.setOnClickListener { view.findViewById<TextView>(R.id.comment).setText(""); mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN }
     }
 
     private fun setupAdapter() {
@@ -86,7 +109,7 @@ class ListMeetingFragment : Fragment() {
                 items_filter.add(i)
             }
         }
-        adapter= ListMeetingAdapter(items_filter, requireContext(), findNavController())
+        adapter= ListMeetingAdapter(items_filter, requireContext(), findNavController(), { mBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED } )
         bind.rcMeeting.layoutManager = LinearLayoutManager(requireContext())
         bind.rcMeeting.adapter=adapter
     }

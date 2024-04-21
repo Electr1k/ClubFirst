@@ -139,17 +139,17 @@ class RegistrationFragment : Fragment(), DatePickerDialog.OnDateSetListener, Ada
                         println("Tags ${listTag}")
                         println("${birthDay}")
                         println("TOKEN")
-                        val user = ApiModule.provideApi().updateUser(
-                            token = "Bearer ${ token?: ""}" ,
-                            first_name = firstName.text.toString(),
-                            last_name = lastName.text.toString(),
-//                            birth_date = birthDay,
-                            time_preference = timePreferences.text.toString(),
-//                            tags = listTag,
-                            position = (position.selectedItem as Position).id,
-                            about = about.text.toString(),
-                            avatar = MultipartBody.Part.createFormData("avatar", imageFile!!.name, requestBody)
-                        )
+//                        val user = ApiModule.provideApi().updateUser(
+//                            token = "Bearer ${ token?: ""}" ,
+//                            first_name = firstName.text.toString(),
+//                            last_name = lastName.text.toString(),
+////                            birth_date = birthDay,
+//                            time_preference = timePreferences.text.toString(),
+////                            tags = listTag,
+//                            position = (position.selectedItem as Position).id,
+//                            about = about.text.toString(),
+//                            avatar = MultipartBody.Part.createFormData("avatar", imageFile!!.name, requestBody)
+//                        )
                         requireActivity().runOnUiThread {
                             findNavController().navigate(R.id.action_registration_to_main)
                         }
