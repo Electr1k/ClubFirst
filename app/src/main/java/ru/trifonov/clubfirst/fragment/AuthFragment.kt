@@ -22,8 +22,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.trifonov.clubfirst.R
-import ru.trifonov.clubfirst.data.dto.PositionsPaginated
-import ru.trifonov.clubfirst.data.dto.User
+import ru.trifonov.clubfirst.common.utils.SettingsData
+import ru.trifonov.clubfirst.data.dto.LoginBody
 import ru.trifonov.clubfirst.di.ApiModule
 
 
@@ -73,28 +73,24 @@ class AuthFragment : Fragment() {
             val account: GoogleSignInAccount? = task.result
             if (account != null){
                 val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-                auth.signInWithCredential(credential).addOnCompleteListener {
-                    if (it.isSuccessful){
+                auth.signInWithCredential(credential).addOnCompleteListener { task->
+                    if (task.isSuccessful){
                         CoroutineScope(Dispatchers.IO).launch {
-
-                            var user: Any? = null
                             try {
-                                user = ApiModule.provideApi().login(it.result.user!!.email!!)
+                                val userResponse = ApiModule.provideApi().login(LoginBody(task.result.user!!.email!!))
+                                requireActivity().runOnUiThread {
+
+                                    SettingsData(requireContext()).setToken(userResponse.access)
+
+                                    findNavController().navigate(R.id.action_auth_to_registration, Bundle().also { it.putString("email", task.result.user!!.email)
+                                    it.putString("token", userResponse.access)})
+                                }
+
                             }
                             catch (e: Exception){
-                            }
-                            if (user is User){
-                                requireActivity().runOnUiThread {
-                                    findNavController().navigate(R.id.action_auth_to_main)
-                                }
-                            }
-                            else{
-                                requireActivity().runOnUiThread {
-                                    findNavController().navigate(R.id.action_auth_to_registration)
-                                }
+                                println("error")
                             }
                         }
-
                     }
                 }
             }

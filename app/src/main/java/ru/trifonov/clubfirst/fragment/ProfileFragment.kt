@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import org.w3c.dom.Text
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.adapters.TagsAdapter
+import ru.trifonov.clubfirst.common.utils.SettingsData
 import ru.trifonov.clubfirst.databinding.ProfileFragmentBinding
 import ru.trifonov.clubfirst.di.ApiModule
 import ru.trifonov.clubfirst.views.SwipeCardItem
@@ -86,8 +87,7 @@ class ProfileFragment : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val userResponse = ApiModule.provideApi().getCurrentUser()
-
+                val userResponse = ApiModule.provideApi().getCurrentUser("Bearer ${ SettingsData(requireContext()).getToken()?: ""}")
                 requireActivity().runOnUiThread {
                     if (userResponse.position!=null){
                         position.text = userResponse.position.name

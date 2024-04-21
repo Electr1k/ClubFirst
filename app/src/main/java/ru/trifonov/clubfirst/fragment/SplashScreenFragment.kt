@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import ru.trifonov.clubfirst.R
+import ru.trifonov.clubfirst.common.utils.SettingsData
 
 
 class SplashScreenFragment : Fragment() {
@@ -30,7 +31,13 @@ class SplashScreenFragment : Fragment() {
         appIcon.startAnimation(textAnimation)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            findNavController().navigate(R.id.action_splash_to_auth)
+            val token = SettingsData(requireContext()).getToken()
+            if (token != null && token != ""){
+                findNavController().navigate(R.id.action_splash_to_main)
+            }
+            else{
+                findNavController().navigate(R.id.action_splash_to_auth)
+            }
         }, 1000)
     }
 }

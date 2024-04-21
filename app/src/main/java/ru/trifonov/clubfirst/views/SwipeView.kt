@@ -187,14 +187,14 @@ class SwipeView @JvmOverloads constructor(
         topView = displayedViews.poll()?.first
 
         if (displayedViews.size < LAYOUT_CARD_STACK_SIZE) {
-//            setBackgroundResource(R.drawable.delete_this_xynyu)
+//            setBackgroundResource(R.drawable.empty_recommendations_list)
         }
     }
 
     private fun removeCardFromLayout(view: View?) {
         if (view == null) return
         removeView(view)
-//        if (displayedViews.size < LAYOUT_CARD_STACK_SIZE) setBackgroundResource(R.drawable.delete_this_xynyu)
+//        if (displayedViews.size < LAYOUT_CARD_STACK_SIZE) setBackgroundResource(R.drawable.empty_recommendations_list)
         if (displayedViews.size == 0) onAllCardSwiped?.invoke()
         topData = displayedViews.peek()?.second
         topView = displayedViews.poll()?.first

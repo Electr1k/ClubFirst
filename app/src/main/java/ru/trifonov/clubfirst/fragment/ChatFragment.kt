@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.adapters.ChatAdapter
+import ru.trifonov.clubfirst.common.utils.SettingsData
 import ru.trifonov.clubfirst.data.dto.Account
 import ru.trifonov.clubfirst.databinding.ChatFragmentBinding
 import ru.trifonov.clubfirst.di.ApiModule
@@ -44,7 +45,7 @@ class ChatFragment : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val responseChats = ApiModule.provideApi().getChats()
+                val responseChats = ApiModule.provideApi().getChats("Bearer ${ SettingsData(requireContext()).getToken()?: ""}")
                 println("Recommendations: $responseChats")
                 val listData = arrayListOf<Account>()
                 responseChats.results.map {

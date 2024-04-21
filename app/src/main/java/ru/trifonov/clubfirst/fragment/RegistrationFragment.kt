@@ -37,15 +37,18 @@ import ru.trifonov.clubfirst.data.dto.Position
 import ru.trifonov.clubfirst.di.ApiModule
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.adapters.SpinnerAdapter
-import ru.trifonov.clubfirst.data.dto.CreateUserDto
+import ru.trifonov.clubfirst.common.utils.SettingsData
+import ru.trifonov.clubfirst.data.dto.LoginBody
 import ru.trifonov.clubfirst.data.dto.Tag
 import ru.trifonov.clubfirst.data.dto.TagPagination
+import ru.trifonov.clubfirst.data.dto.User
 import java.io.File
 import java.util.Calendar
 
 
 class RegistrationFragment : Fragment(), DatePickerDialog.OnDateSetListener, AdapterView.OnItemClickListener{
-
+    private var token = ""
+    private lateinit var user: User
     private lateinit var registrationBtn: Button
     private lateinit var lastName: EditText
     private lateinit var firstName: EditText
@@ -54,7 +57,7 @@ class RegistrationFragment : Fragment(), DatePickerDialog.OnDateSetListener, Ada
     private lateinit var position: Spinner
     private lateinit var selectedDate: TextView
     private lateinit var tags: ListView
-    private var positionList: List<Position>? = null
+    private lateinit var positionList: List<Position>
 
     private var selectedTags: MutableList<Tag> =  mutableListOf()
     private var birthDay: String = ""
@@ -78,6 +81,8 @@ class RegistrationFragment : Fragment(), DatePickerDialog.OnDateSetListener, Ada
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        token = arguments?.getString("token", "")!!
+        println("Get token $token")
         registrationBtn = view.findViewById(R.id.registrationBtn)
         lastName = view.findViewById(R.id.LastName)
         firstName = view.findViewById(R.id.FirstName) // family
@@ -125,6 +130,7 @@ class RegistrationFragment : Fragment(), DatePickerDialog.OnDateSetListener, Ada
                     Toast.makeText(requireContext(), "Заполните все поля", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
+                val token = SettingsData(requireContext()).getToken()
                 CoroutineScope(Dispatchers.IO).launch {
                     if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         val requestBody = imageFile!!.asRequestBody("image/*".toMediaTypeOrNull())
@@ -132,21 +138,21 @@ class RegistrationFragment : Fragment(), DatePickerDialog.OnDateSetListener, Ada
                         tagsResponse.results.map { listTag.add(it.id) }
                         println("Tags ${listTag}")
                         println(birthDay)
-//                        val user = ApiModule.provideApi().createUser(
-//                                first_name = firstName.text.toString(),
-//                                last_name = lastName.text.toString(),
-//                                birth_date = birthDay,
-//                                time_preference = timePreferences.text.toString(),
-//                                tags = listTag,
-//                                position = (position.selectedItem as Position).id,
-//                                about = about.text.toString(),
+                        println("TOKEN")
+//                        val user = ApiModule.provideApi().updateUser(
+//                            token = "Bearer ${ token?: ""}" ,
+//                            first_name = firstName.text.toString(),
+//                            last_name = lastName.text.toString(),
+//                            birth_date = birthDay,
+//                            time_preference = timePreferences.text.toString(),
+//                            tags = listTag,
+//                            position = (position.selectedItem as Position).id,
+//                            about = about.text.toString(),
 //                            avatar = MultipartBody.Part.createFormData("avatar", imageFile!!.name, requestBody)
 //                        )
                         requireActivity().runOnUiThread {
-
-                        findNavController().navigate(R.id.action_registration_to_main)
+                            findNavController().navigate(R.id.action_registration_to_main)
                         }
-//                        println("New user ${user}")
                     } else {
                         // Запросите разрешение на чтение файлов
                         ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 30)
@@ -159,20 +165,30 @@ class RegistrationFragment : Fragment(), DatePickerDialog.OnDateSetListener, Ada
                 Toast.makeText(requireContext(), "Заполните все поля", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
-        //            findNavController().navigate(R.id.action_registration_to_main)
         }
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val positionResponse = ApiModule.provideApi().getPositions()
+                val userResponse = ApiModule.provideApi().login(LoginBody(arguments?.getString("email", "")!!))
+                user = userResponse.user
+                token = userResponse.access
                 requireActivity().runOnUiThread {
-                    position.adapter = SpinnerAdapter(requireContext(), positionResponse.results!!, layoutInflater)
+                    firstName.setText(user.first_name)
+                    lastName.setText(user.last_name)
+                    selectedDate.text = user.birth_date ?: birthDay
+                    timePreferences.setText(user.time_preference ?: "")
+                }
+            }
+            catch (e: Exception){
+                println("error")
+            }
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val positionResponse = ApiModule.provideApi().getPositions("Bearer $token")
+                positionList = positionResponse.results
+                requireActivity().runOnUiThread {
+                    position.adapter = SpinnerAdapter(requireContext(), positionList, layoutInflater)
+                    if (user.position != null) position.setSelection(positionList.indexOf(positionList.find{ it.id == user.position!!.id}!!))
                 }
             }
             catch (e: Exception){
@@ -182,18 +198,27 @@ class RegistrationFragment : Fragment(), DatePickerDialog.OnDateSetListener, Ada
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                tagsResponse = ApiModule.provideApi().getTags()
+                tagsResponse = ApiModule.provideApi()
+                    .getTags("Bearer $token")
                 val tagsList = mutableListOf<String>()
-                tagsResponse.results.map { tagsList.add(it.name)}
+                tagsResponse.results.map { tagsList.add(it.name) }
+
                 requireActivity().runOnUiThread {
-                    tags.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, tagsList)
+                    tags.adapter = ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_list_item_multiple_choice,
+                        tagsList
+                    )
+
                 }
             }
             catch (e: Exception){
                 println("error")
             }
         }
+
     }
+
 
     private fun getDateTimeCalendar(){
         val cal = Calendar.getInstance()

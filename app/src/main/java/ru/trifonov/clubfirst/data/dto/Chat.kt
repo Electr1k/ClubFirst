@@ -12,9 +12,3 @@ data class Account(
     val name: String,
     val last_message: Message
 )
-
-data class Message(
-    val id: Int,
-    val text: String,
-    val author: User
-)

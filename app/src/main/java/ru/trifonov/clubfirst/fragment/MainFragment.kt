@@ -9,10 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.trifonov.clubfirst.R
+import ru.trifonov.clubfirst.adapters.TagsAdapter
+import ru.trifonov.clubfirst.common.utils.SettingsData
+import ru.trifonov.clubfirst.data.dto.AccountObject
+import ru.trifonov.clubfirst.data.dto.ReactionBody
+import ru.trifonov.clubfirst.data.dto.Tag
 import ru.trifonov.clubfirst.di.ApiModule
 import ru.trifonov.clubfirst.views.SwipeCardItem
 import ru.trifonov.clubfirst.views.SwipeDirection
@@ -32,11 +38,24 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val token = SettingsData(requireContext()).getToken()!!
         swipeView = view.findViewById(R.id.swipe_view)
         swipeView.onCardSwiped = { _, it, swipeDirection ->
             println("$it $swipeDirection")
-            if (swipeDirection == SwipeDirection.LEFT){
-                findNavController().navigate(R.id.action_main_to_boomp)
+            val rec = (it as SomeUsefulData).data
+            CoroutineScope(Dispatchers.IO).launch {
+                val api = ApiModule.provideApi()
+                try {
+                    val body = ReactionBody(if (swipeDirection == SwipeDirection.LEFT) 1 else 2)
+                    api.setReactionOnRecommendation((it as SomeUsefulData).recId, body, token = "Bearer $token")
+                    requireActivity().runOnUiThread {
+                        if (swipeDirection == SwipeDirection.LEFT) findNavController().navigate(R.id.action_main_to_boomp)
+                    }
+                }
+                catch (e: Exception){
+                    println(e.message)
+                }
+
             }
 
         }
@@ -53,7 +72,9 @@ class MainFragment : Fragment() {
         swipeView.onCardBind = { viewItem: View, employee: SomeUsefulData ->
 
             val title = viewItem.findViewById<TextView>(R.id.title)
-            title.text = employee.name
+            title.text = employee.data.about
+            val rv = viewItem.findViewById<RecyclerView>(R.id.tagsRV)
+            rv.adapter = TagsAdapter(employee.data.tags)
             val background = viewItem.background as GradientDrawable
             background.setStroke(6 , Color.argb(255, 255, 221, 0))
         }
@@ -64,18 +85,16 @@ class MainFragment : Fragment() {
         super.onStart()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val listRec = ApiModule.provideApi().getRecommendations()
+                val listRec = ApiModule.provideApi().getRecommendations("Bearer ${ SettingsData(requireContext()).getToken()?: ""}")
                 println("Recommendations: $listRec")
                 val listData = mutableListOf<SwipeCardItem>()
                 listRec.results.map {
-                    listData.add(
-                        SwipeCardItem(R.layout.employee_item, SomeUsefulData(it.`object`.about)
-                        )
+                    listData.add(SwipeCardItem(R.layout.employee_item, SomeUsefulData(it.`object`, it.id))
                     )
                 }
+
                 requireActivity().runOnUiThread {
                     swipeView.submitData(listData)
-
                 }
             }
             catch (e: Exception){
@@ -85,7 +104,8 @@ class MainFragment : Fragment() {
     }
 
     data class SomeUsefulData(
-        val name: String
+        val data: AccountObject,
+        val recId: Int
     )
 
     private fun interpolateColorToRed(progress: Float): Int {

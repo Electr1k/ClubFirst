@@ -15,10 +15,15 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.adapters.DialogAdapter
+import ru.trifonov.clubfirst.common.utils.SettingsData
 import ru.trifonov.clubfirst.data.MessageItem
 import ru.trifonov.clubfirst.databinding.DialogFragmentBinding
+import ru.trifonov.clubfirst.di.ApiModule
 import java.util.Calendar
 import kotlin.math.max
 import kotlin.math.min
@@ -67,9 +72,19 @@ class DialogFragment : Fragment(), DialogAdapter.Listener, DatePickerDialog.OnDa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val idChat = arguments?.getInt("id")
         bind.btnBackToChats.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val messagesResponse = ApiModule.provideApi().getChatMessage(idChat!!, "Bearer ${ SettingsData(requireContext()).getToken()?: ""}")
+                messagesResponse.results
+            }
+            catch (e: Exception){
+
+            }
         }
     }
 

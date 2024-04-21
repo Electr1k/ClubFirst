@@ -11,7 +11,7 @@ data class AccountRec(
     val id: Int,
     val `object`: AccountObject,
     val state: Int,
-    val is_bump: String
+    val is_bump: Boolean
 )
 
 data class AccountObject(
