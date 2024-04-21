@@ -12,6 +12,8 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import de.hdodenhof.circleimageview.CircleImageView
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.data.dto.Account
 
@@ -39,16 +41,21 @@ class ChatAdapter(
         holder.card.setOnClickListener {
             navController.navigate(R.id.action_chat_to_dialog, Bundle().also { it.putInt("id", items[position].id) })
         }
+        if (items[position].participants?.get(1)?.avatar != null){""
+            holder.image_user.load(items[position].participants?.get(1)?.avatar)
+        }
     }
 
     class PlaceHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val text: TextView
         val lastName: TextView
         val card : CardView
+        val image_user: CircleImageView
         init {
             text = itemView.findViewById(R.id.name_chat_user)
             card = itemView.findViewById(R.id.card_user)
             lastName = itemView.findViewById(R.id.last_message)
+            image_user = itemView.findViewById(R.id.image_user)
         }
     }
 }

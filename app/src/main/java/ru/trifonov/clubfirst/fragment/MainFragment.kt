@@ -1,13 +1,15 @@
 package ru.trifonov.clubfirst.fragment
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -16,10 +18,8 @@ import kotlinx.coroutines.launch
 import ru.trifonov.clubfirst.R
 import ru.trifonov.clubfirst.adapters.TagsAdapter
 import ru.trifonov.clubfirst.common.utils.SettingsData
-import ru.trifonov.clubfirst.data.dto.AccountObject
 import ru.trifonov.clubfirst.data.dto.AccountRec
 import ru.trifonov.clubfirst.data.dto.ReactionBody
-import ru.trifonov.clubfirst.data.dto.Tag
 import ru.trifonov.clubfirst.di.ApiModule
 import ru.trifonov.clubfirst.views.SwipeCardItem
 import ru.trifonov.clubfirst.views.SwipeDirection
@@ -39,6 +39,15 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        val alert = AlertDialog.
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setMessage("Хотите ли вы отображаться в подборе на следующей неделе?").setPositiveButton("Да", DialogInterface.OnClickListener { dialog, which ->
+            dialog.cancel()
+        }).setNegativeButton(
+            "Нет", DialogInterface.OnClickListener { dialog, which ->
+            dialog.cancel()
+        })
+        builder.create().show()
         val token = SettingsData(requireContext()).getToken()!!
         swipeView = view.findViewById(R.id.swipe_view)
         swipeView.onCardSwiped = { _, it, swipeDirection ->

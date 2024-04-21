@@ -72,6 +72,11 @@
     <fragment android:id="@+id/boomp"
         android:name="ru.trifonov.clubfirst.fragment.BoompFragment"
         tools:layout="@layout/dialog_boomp">
+        <action
+            android:id="@+id/action_boomp_to_chat"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/mobile_navigation"
+            app:destination="@+id/chat"/>
 
     </fragment>
 
